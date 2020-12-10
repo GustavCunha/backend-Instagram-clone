@@ -2,9 +2,14 @@ const Post = require("../models/Post");
 
 module.exports = class PostController{
 
-    async list(req, res ){
+    async listPosts(req, res ){
         try{
-            const postList = await Post.find({}).populate(['user','comment']);
+            const postList = await Post.find({})
+                .populate({
+                    path: 'user',
+                    select: 'name avatar'
+                })
+                .populate('comment');
 
             return res.status(200).json(postList);
         }catch (error) {
@@ -60,4 +65,9 @@ module.exports = class PostController{
             return res.status(400).json(`Error: ${error}`);
         }
     }
+
+    async listLikes(req, res){
+        const likeList = await Post.find
+    }
+
 }
