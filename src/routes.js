@@ -10,14 +10,22 @@ const userController = new UserController();
 const commentController = new CommentController();
 const likeController = new LikeController();
 
+// Rotas dos Posts
 routes.get('/posts', postController.listPosts);
 routes.post('/posts', postController.createdPost);
+routes.delete('/posts/:id', postController.deletePost);
 
+// Rotas dos Comentários
 routes.get('/posts/comments', commentController.list);
-routes.post('/posts/comments', commentController.addComment);
+routes.post('/posts/comments/:id', commentController.addComment);
+routes.delete('/posts/comments/:id', commentController.deleteComment);
 
+// Rotas dos Likes
 routes.get('/posts/likes', likeController.list);
+routes.post('/posts/likes/:id', likeController.toogleLike);
+routes.delete('/posts/likes/:id', likeController.deleteLike);
 
+// Rotas da Autenticação
 routes.get('/users', userController.list);
 routes.post('/user/signup', userController.signup);
 routes.post('/user/login', userController.authenticate);

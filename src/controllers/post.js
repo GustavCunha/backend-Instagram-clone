@@ -66,8 +66,15 @@ module.exports = class PostController{
         }
     }
 
-    async listLikes(req, res){
-        const likeList = await Post.find
-    }
+    async deletePost(req, res){
+        const post = await Post.findById(req.params.id);
 
+        try {
+            await post.remove();
+
+            return res.status(200).json({message: "Deletado com sucesso!"});
+        } catch (error) {
+            return res.status(400).json(`Error: ${error}`);
+        }
+    }
 }
