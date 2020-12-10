@@ -7,6 +7,7 @@ const postController = new PostController();
 const userController = new UserController();
 
 routes.get('/posts', postController.list);
+routes.post('/posts', postController.createdPost);
 
 routes.get('/users', userController.list);
 routes.post('/user/signup', userController.signup);
