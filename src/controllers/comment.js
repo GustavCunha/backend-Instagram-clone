@@ -10,7 +10,8 @@ module.exports = class CommentController{
                     select: 'user avatar'
                 })
                 .populate({
-                    path: 'post'
+                    path: 'post',
+                    select: '_id'
                 });
 
             return res.status(200).json(commentList);
@@ -20,9 +21,10 @@ module.exports = class CommentController{
     }
 
     async addComment(req, res){
-        const post = await Post.findById(req.params.id);
-
+        
         try {
+            const post = await Post.findById(req.params.id);
+
             let comment = await Comment.create({
                 user: req.body.user,
                 post: req.params.id, 

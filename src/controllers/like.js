@@ -23,33 +23,58 @@ module.exports = class LikeController{
     async toogleLike(req, res){
         
         const post = await Post.findById(req.params.id);
+        const user = req.body.user;
 
+        let like;
         try {
-            let like = await Like.create({
-                user: req.body.user,
-                post: req.params.id, 
-                isLiked: true
-            });
 
-            if(post.likes.includes(req.body.user)){
-                const index = post.likes.indexOf(req.body.user);
-                post.likes.splice(index, 1);
-                post.likesCount = post.likesCount - 1;
-                await post.save();
-            }else{
-                post.likes.push(req.body.user);
-                post.likesCount = post.likesCount + 1;
-                await post.save();
-            }
+                if(post.likes.includes(req.body.user)){
+                    const index = post.likes.indexOf(req.body.user);
+                    post.likes.splice(index, 1);
+                    post.likesCount = post.likesCount - 1;
+                    await post.save();
 
-            like = await like
-                .populate({path: 'user', select: 'user avatar'})
-                .execPopulate();
+                    like = await Like.findOneAndDelete({user});
 
-            res.status(200).json({ success: true, data: like });
+                }else{
+                    post.likes.push(req.body.user);
+                    post.likesCount = post.likesCount + 1;
+                    await post.save();
+
+                    like = await Like.create({
+                        user: req.body.user,
+                        post: req.params.id, 
+                        isLiked: true
+                    });
+
+                }
+            // }else{
+            //     like = await Like.create({
+            //         user: req.body.user,
+            //         post: req.params.id, 
+            //         isLiked: true
+            //     });
+
+            //     if(post.likes.includes(req.body.user)){
+            //         const index = post.likes.indexOf(req.body.user);
+            //         post.likes.splice(index, 1);
+            //         post.likesCount = post.likesCount - 1;
+            //         await post.save();
+            //     }else{
+            //         post.likes.push(req.body.user);
+            //         post.likesCount = post.likesCount + 1;
+            //         await post.save();
+            //     }
+            // }
+            
+            // like = await like
+            //     .populate({path: 'user', select: 'user avatar'})
+            //     .execPopulate();
+
+            res.status(200).json({ success: true});
             
         } catch (error) {
-            
+            return res.status(400).json(`Error: ${error}`);
         }
     }
 
