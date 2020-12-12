@@ -77,4 +77,16 @@ module.exports = class PostController{
             return res.status(400).json(`Error: ${error}`);
         }
     }
+
+    async getLikes(req, res){
+        const {user} = req.params;
+
+        try {
+            const likeInPost = await Post.findOne({likes: user });
+
+            return res.json({likeInPost})
+        } catch (error) {
+            return res.status(400).json({error: `${error}`});
+        }
+    }
 }

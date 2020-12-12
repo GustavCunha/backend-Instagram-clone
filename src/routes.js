@@ -14,6 +14,7 @@ const likeController = new LikeController();
 routes.get('/posts', postController.listPosts);
 routes.post('/posts', postController.createdPost);
 routes.delete('/posts/:id', postController.deletePost);
+routes.get('/posts/like/:id', postController.getLikes);
 
 // Rotas dos Comentários
 routes.get('/posts/comments', commentController.list);
@@ -27,7 +28,10 @@ routes.delete('/posts/likes/:id', likeController.deleteLike);
 
 // Rotas da Autenticação
 routes.get('/users', userController.list);
+routes.get('/users/:user', userController.showUser);
 routes.post('/user/signup', userController.signup);
 routes.post('/user/login', userController.authenticate);
+routes.get('/user/update/:user', userController.showUser);
+
 
 module.exports = routes;

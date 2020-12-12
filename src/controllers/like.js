@@ -20,6 +20,14 @@ module.exports = class LikeController{
         }
     }
 
+    async getLike(req, res){
+        try {
+            const likeList = await Like.findOne({})
+        } catch (error) {
+            return res.status(400).json({error: `${error}`});
+        }
+    }
+
     async toogleLike(req, res){
         
         const post = await Post.findById(req.params.id);

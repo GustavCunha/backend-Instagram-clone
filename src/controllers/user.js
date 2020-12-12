@@ -43,6 +43,33 @@ module.exports = class UserController{
 
         usuario.password = undefined;
 
-        res.status(200).json({usuario, message: "Login com sucesso!"});
+        res.status(200).json(usuario);
+    }
+
+    async update(req, res){
+        const {user} = req.params;
+        const {avatar} = req.body;
+
+        try { 
+            let users = await User.findOneAndUpdate({user}, {
+                avatar: avatar
+            });
+
+            return res.status(200).json({users});
+        } catch (error) {
+            return res.status(400).json({error: `${error}`});
+        }
+
+    }
+
+    async showUser(req, res){
+        const {user} = req.params;
+        try {
+            const users = await User.findOne({user});
+
+            return res.status(200).json(users);
+        } catch (error) {
+            return res.status(400).json({error: `${error}`});
+        }
     }
 }
