@@ -15,9 +15,11 @@ routes.get('/posts', postController.listPosts);
 routes.post('/posts', postController.createdPost);
 routes.delete('/posts/:id', postController.deletePost);
 routes.get('/posts/like/:id', postController.getLikes);
+routes.get('/posts/listComments/:id', postController.listCommentsPost);
 
 // Rotas dos Comentários
 routes.get('/posts/comments', commentController.list);
+routes.get('/posts/comments/:id', commentController.getComment);
 routes.post('/posts/comments/:id', commentController.addComment);
 routes.delete('/posts/comments/:id', commentController.deleteComment);
 

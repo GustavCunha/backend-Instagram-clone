@@ -1,3 +1,4 @@
+const Comment = require("../models/Comment");
 const Post = require("../models/Post");
 
 module.exports = class PostController{
@@ -15,6 +16,23 @@ module.exports = class PostController{
         }catch (error) {
             res.status(400).json({error: `${error}`});
         }
+    }
+
+    async listCommentsPost(req, res){
+        const {id} = req.params;
+        
+        try {
+            const posts = await Post.findById({_id: id});
+
+            let commentsPost = posts.comments;
+
+            let listComments = await Comment.findById({_id: commentsPost[0]});
+
+            return res.status(200).json(commentsPost);
+        } catch (error) {
+            return res.status(400).json({error: `${error}`});
+        }
+
     }
 
     async toogleLike(req, res){

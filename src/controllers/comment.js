@@ -53,4 +53,16 @@ module.exports = class CommentController{
             return res.status(400).json(`Error: ${error}`);
         }
     }
+
+    async getComment(req, res){
+        const {id} = req.params;
+
+        try {
+            const comments = await Comment.findById({_id: id});
+
+            return res.status(200).json(comments);
+        } catch (error) {
+            return res.status(400).json({error: `${error}`});
+        }
+    }
 }
