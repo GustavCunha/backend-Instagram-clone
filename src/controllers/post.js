@@ -22,7 +22,7 @@ module.exports = class PostController{
         const {id} = req.params;
         
         try {
-            const posts = await Post.findById({_id: id});
+            const posts = await Post.findById({_id: id}).populate('comment');
 
             let commentsPost = posts.comments;
 
@@ -97,12 +97,14 @@ module.exports = class PostController{
     }
 
     async getLikes(req, res){
-        const {user} = req.params;
+        const {id} = req.params;
 
         try {
-            const likeInPost = await Post.findOne({likes: user });
+            const posts = await Post.findById({_id: id});
 
-            return res.json({likeInPost})
+            let likesPost = posts.likes;
+
+            return res.status(200).json(likesPost);
         } catch (error) {
             return res.status(400).json({error: `${error}`});
         }

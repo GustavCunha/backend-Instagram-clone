@@ -1,5 +1,6 @@
 const Like = require("../models/Like");
 const Post = require("../models/Post");
+const User = require("../models/User");
 
 module.exports = class LikeController{
     async list(req, res){
@@ -21,8 +22,13 @@ module.exports = class LikeController{
     }
 
     async getLike(req, res){
+
+        const {id} = req.params;
+
         try {
-            const likeList = await Like.findOne({})
+            const likes = await Like.findById({_id: id});
+
+            return res.status(200).json(likes);
         } catch (error) {
             return res.status(400).json({error: `${error}`});
         }
@@ -36,7 +42,7 @@ module.exports = class LikeController{
         let like;
         try {
 
-                if(post.likes.includes(req.body.user)){
+                if(post.likes.includes(req.body.user)){ //req.body.user
                     const index = post.likes.indexOf(req.body.user);
                     post.likes.splice(index, 1);
                     post.likesCount = post.likesCount - 1;

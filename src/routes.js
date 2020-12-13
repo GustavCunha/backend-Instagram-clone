@@ -14,7 +14,7 @@ const likeController = new LikeController();
 routes.get('/posts', postController.listPosts);
 routes.post('/posts', postController.createdPost);
 routes.delete('/posts/:id', postController.deletePost);
-routes.get('/posts/like/:id', postController.getLikes);
+routes.get('/posts/listLikes/:id', postController.getLikes);
 routes.get('/posts/listComments/:id', postController.listCommentsPost);
 
 // Rotas dos Comentários
@@ -25,6 +25,7 @@ routes.delete('/posts/comments/:id', commentController.deleteComment);
 
 // Rotas dos Likes
 routes.get('/posts/likes', likeController.list);
+routes.get('/posts/likes/:id', likeController.getLike);
 routes.post('/posts/likes/:id', likeController.toogleLike);
 routes.delete('/posts/likes/:id', likeController.deleteLike);
 
